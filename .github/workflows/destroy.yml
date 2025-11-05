@@ -1,14 +1,8 @@
-name: Terraform CI CD Pipeline for Deploying AWS Resources
+name: Terraform Destroy Manual Trigger
 run-name: ${{ github.actor }} has triggered the pipeline
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'feature-devops'    
-  pull_request:
-    branches:
-      - 'main'
+  workflow_dispatch: #Manual Trigger Only
 
 env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
@@ -27,10 +21,7 @@ jobs:
         id: init
         run: terraform init
         working-directory: ./terraform-infra
-      - name: Terraform Validate
-        id: validate
-        run: terraform validate
-        working-directory: ./terraform-infra
-      - name: Terraform Destroy                
+      - name: Terraform Destroy
+        id: destroy      
         run: terraform destroy --auto-approve
         working-directory: ./terraform-infra
