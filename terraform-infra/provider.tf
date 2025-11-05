@@ -7,9 +7,10 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "terraform-remote-backend-s3"
+    bucket = "aws-terraform-backend-s3-demo"
     key    = "dev/terraform.tfstate"
     region = "us-east-1"
+    encrypt = true    
   }
 }
 
