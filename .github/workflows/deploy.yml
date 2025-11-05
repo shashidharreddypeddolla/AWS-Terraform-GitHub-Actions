@@ -5,9 +5,11 @@ on:
   push:
     branches:
       - 'main'
-      - 'feature-devops'
-      - 'terraform-infra'
-      
+      - 'feature-devops'    
+  pull_request:
+    branches:
+      - 'main'
+
 env:
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -34,6 +36,7 @@ jobs:
         run: terraform plan
         working-directory: ./terraform-infra
       - name: Terraform Apply
+        if: github.ref == 'refs/heads/main'
         id: apply
-        run: terraform destroy --auto-approve
+        run: terraform apply --auto-approve
         working-directory: ./terraform-infra
